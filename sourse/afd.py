@@ -1,3 +1,6 @@
+
+# AFD stands for DFA which stands for Deterministic Finite Automaton
+
 from sourse.parseInput import parseAfd
 
 class Afd:
@@ -8,7 +11,6 @@ class Afd:
         self.initial_state = dict['initial']
         self.final_states = dict['final']
         self.states = dict['states']
-        self.prog = dict['prog']
         self.nodes = None
     
     def __str__(self):
