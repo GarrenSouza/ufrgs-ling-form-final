@@ -1,7 +1,5 @@
 import re
 
-pprint()
-
 # AFD stands for DFA which stands for Deterministic Finite Automaton
 
 '''
