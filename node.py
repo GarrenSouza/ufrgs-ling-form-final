@@ -20,7 +20,7 @@ class AFDNode:
         return self.__str__()
 
     def getNext(self, input):
-        return self.__transitions[input]
+        return self.__transitions.get(input) # me enganei, foi sobre o get que comentei no Discord
 
     def setAsFinal(self):
         self.__final=True
