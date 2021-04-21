@@ -31,12 +31,17 @@ def parseAfd(file_path):
         
 '''
 
-def parseNodes(file_path):
+def parseNodes(file_path, states):
     try:
         with open(file_path, encoding='utf8') as file:
-            nodes = file.read()
-        nodes = re.findall(r'^\((.*),(.*)\)=(.*)', nodes, re.MULTILINE)
-        return [{'dep_state':node[0], 'symbol':node[1], 'arr_state':node[2]} for node in nodes]
+            nodes = re.findall(r'^\((.*),(.*)\)=(.*)', file.read(), re.MULTILINE)
+        nodes = [{'dep_state':node[0], 'symbol':node[1], 'arr_state':node[2]} for node in nodes]
+        nodesDict = dict()
+        for state in states:
+            nodesDict[state] = list()
+        for node in nodes:
+            nodesDict[node['dep_state']].append({'state':node['arr_state'], 'symbol':node['symbol']})
+        return nodesDict
     except:
         return False
 
