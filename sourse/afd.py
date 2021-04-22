@@ -61,6 +61,46 @@ class AFD:
     def minimize(self):
         pass
 
-
+    def removeUnreachableStates(self):
+        reachable_nodes = {}
+        nodes = {}
+        for node in self.nodes:
+            nodes[node.getName()] = node
+        processing_queue = []
+        processing_queue.append(nodes[self.initial_state])
+        while len(processing_queue) > 0:
+            node = processing_queue.pop(0)
+            if reachable_nodes.get(node.getName()) == None:
+                reachable_nodes[node.getName()] = node
+                transitions = node.getTransitions()
+                for tnode in transitions.values():
+                    processing_queue.append(tnode)
+        self.nodes = reachable_nodes
+    
+    def processWord(self, word, verbose=False):
+        path = []
+        symbol_position = 0
+        nextState = self.nodes[self.initial_state]
+        while nextState != None and symbol_position < len(word):
+            path.append(nextState.getName())
+            nextState = nextState.transitions[word[symbol_position]]
+            symbol_position += 1
+        if not nextState:
+            if verbose:
+                print("Word rejected (transition undefined)")
+            return False
+        else:
+            if nextState.isFinal():
+                path.append(nextState.getName())
+                if verbose:
+                    print("Word accepted")
+                    print(path[0], end='')
+                    for i in range(1,len(path)):
+                        print(" -> "+path[i], end='')
+                return True
+            else:
+                if verbose:
+                    print("Word rejected (ending state is not final)")
+                return False
 
 afd = AFD('input.txt')
