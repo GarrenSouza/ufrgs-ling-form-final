@@ -59,7 +59,9 @@ class AFD:
                     i += 1     
 
     def minimize(self):
-        pass
+        self.removeUnreachableStates()
+        self.makeTotal()
+        
 
     def removeUnreachableStates(self):
         reachable_nodes = {}
