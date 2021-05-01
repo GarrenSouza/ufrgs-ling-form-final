@@ -35,3 +35,6 @@ class AFDNode:
 
     def getTransitions(self):
         return self.transitions
+
+    def continue_avaliating(self, pair):
+        return self.final == pair.final
