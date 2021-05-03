@@ -19,7 +19,10 @@ class AFDNode:
 
     def __repr__(self):
         return self.__str__()
-    '''  
+    ''' 
+
+    def remove_transition(self, sym):
+        self.transitions.pop(sym)
 
     def getNext(self, input):
         return self.transitions[input]

@@ -1,7 +1,7 @@
 
 # AFD stands for DFA which stands for Deterministic Finite Automaton
 
-from parseInput import parseAfd, parseNodes
+from parseInput import parseAfd, parseNodes, parse_pairs
 from node import AFDNode
 from pair import Pair
 
@@ -107,7 +107,6 @@ class AFD:
                 self.states.pop(index)
                 return
 
-
     def minimize(self):
         self.removeUnreachableStates()
         self.makeTotal()
@@ -152,6 +151,8 @@ class AFD:
         # Exclusão de estados inuteis
         ## Procura por estdos inuteis
         useless_states = list()
+
+        # Procura estados
         for node in self.nodes.values():
             parsing_queue = [node]
             tracking_dict = dict()
@@ -169,16 +170,34 @@ class AFD:
 
             if not reaches_final:
                 useless_states.append(node)
-        # Remove estados inuteis
-        print(useless_states[0].name)
+        
+        # Remove transições para estados inúteis
+        for node in self.nodes.values():
+            usefull_transitions = dict()
+            for sym, key in node.transitions.items():
+                if not key in useless_states:
+                    print(node.name, (sym, key), key.name, '  USELESS: ', useless_states[0].name)
+                    usefull_transitions[sym] = key
+            node.transition = usefull_transitions
 
-
+        # Remove estados inúteis do AFD
+        usefull_nodes = dict()
+        usefull_states = list()
+        for node in self.nodes.values():
+            if not node in useless_states:
+                usefull_nodes[node.name] = node
+                usefull_states.append(node.name)
 
         # Construção do AFD minimizado
-
-                
-
-            
-
-
-afd = AFD('input.txt')
+        self.nodes = usefull_nodes
+        self.states = usefull_states
+    
+    def filter_pairs(self, file_path):
+        pairs = parse_pairs(file_path)
+        if pairs == None:
+            return None
+        valid_pairs = list()
+        for pair in pairs:
+            if self.processWord(pair[0]) and self.processWord(pair[1]):
+                valid_pairs.append(tuple(pair[0], pair[1]))
+        return valid_pairs

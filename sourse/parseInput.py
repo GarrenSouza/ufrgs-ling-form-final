@@ -45,5 +45,9 @@ def parseNodes(file_path, states):
     except:
         return False
 
-
-
+def parse_pairs(file_path):
+    try:
+        with open(file_path, encoding='utf8') as file:
+            return re.findall(r'(.*),(.*)', file.read(), re.MULTILINE) 
+    except:
+        return None
