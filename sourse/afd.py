@@ -80,7 +80,7 @@ class AFD:
         nextState = self.nodes[self.initial_state]
         while nextState != None and symbol_position < len(word):
             path.append(nextState.getName())
-            nextState = nextState.transitions[word[symbol_position]]
+            nextState = nextState.transitions.get(word[symbol_position])
             symbol_position += 1
         if not nextState:
             if verbose:
@@ -137,6 +137,11 @@ class AFD:
                         pair.invalidate()
             else:
                 pair.invalidate()
+
+        # print("Pairs dict:")
+        # for name, pair in pairs_dict.items():
+        #     print(name, pair.equivalent)
+
         # Unificação de estados equivalentes
         for pair in pairs_dict.values():
             if pair.equivalent:
@@ -148,6 +153,12 @@ class AFD:
                             node.transitions[key] = pair.l_node
                 # Deleta duplicata
                 self.remove_node(pair.r_node.name)
+                if pair.r_node.final:
+                    for i in range(len(self.final_states)):
+                        if self.final_states[i] == pair.r_node.name:
+                            self.final_states.pop(i)
+                            break
+
         # Exclusão de estados inuteis
         ## Procura por estdos inuteis
         useless_states = list()
@@ -176,9 +187,9 @@ class AFD:
             usefull_transitions = dict()
             for sym, key in node.transitions.items():
                 if not key in useless_states:
-                    print(node.name, (sym, key), key.name, '  USELESS: ', useless_states[0].name)
+                    # print(node.name, (sym, key), key.name, '  USELESS: ', useless_states[0].name)
                     usefull_transitions[sym] = key
-            node.transition = usefull_transitions
+            node.transitions = usefull_transitions
 
         # Remove estados inúteis do AFD
         usefull_nodes = dict()
@@ -199,5 +210,6 @@ class AFD:
         valid_pairs = list()
         for pair in pairs:
             if self.processWord(pair[0]) and self.processWord(pair[1]):
-                valid_pairs.append(tuple(pair[0], pair[1]))
-        return valid_pairs
+                valid_pairs.append((pair[0], pair[1]))
+        for pair in valid_pairs:
+            print(f'{pair[0]},{pair[1]}')

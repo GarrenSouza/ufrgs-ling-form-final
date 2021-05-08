@@ -7,7 +7,7 @@ class AFDNode:
     def addTransition(self, input, nextState):
         self.transitions[input] = nextState
     
-    '''
+    
     def __str__(self):
         info = f'<(label:{self.name}, '
         if(len(self.transitions.values()) > 0):
@@ -19,7 +19,7 @@ class AFDNode:
 
     def __repr__(self):
         return self.__str__()
-    ''' 
+    
 
     def remove_transition(self, sym):
         self.transitions.pop(sym)
