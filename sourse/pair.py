@@ -1,3 +1,5 @@
+#Autores: Garrenlus de Souza, Lucas Rozado & Rodolfo Barbosa | 2021
+#Representacao interna dos pares utilizados na etapa de teste de equivalencia do processo de minimizacao de AFD
 
 class Pair:
     def __init__(self, name, l_node, r_node):

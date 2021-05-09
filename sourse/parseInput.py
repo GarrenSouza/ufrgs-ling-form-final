@@ -1,6 +1,6 @@
 import re
 
-# AFD stands for DFA which stands for Deterministic Finite Automaton
+#Autores: Garrenlus de Souza, Lucas Rozado & Rodolfo Barbosa | 2021
 
 '''
     Given a path to an afd file returns a dictionary with:
@@ -11,7 +11,6 @@ import re
         - the afd's initial state:      initial
         - the afd's final states:       final
     Returns False if any errors occur
-
 '''
 def parseAfd(file_path):
     try:
@@ -28,7 +27,6 @@ def parseAfd(file_path):
         - the arrival state:                                                     arr_state
         - the symbol used to go from the departure state to the arrival state:   symbol
     Returns False if any errors occur
-        
 '''
 
 def parseNodes(file_path, states):

@@ -1,5 +1,5 @@
-
-# AFD stands for DFA which stands for Deterministic Finite Automaton
+# Autores: Garrenlus de Souza, Lucas Rozado & Rodolfo Barbosa | 2021
+# AFD e um acronimo para Automato Finito Deterministico
 
 from parseInput import parseAfd, parseNodes, parse_pairs
 from node import AFDNode
@@ -213,3 +213,53 @@ class AFD:
                 valid_pairs.append((pair[0], pair[1]))
         for pair in valid_pairs:
             print(f'{pair[0]},{pair[1]}')
+    
+def menu():
+    user_input = ""
+    afd = None
+    AFD_file_path = ""
+    word_pairs_file_path = ""
+    while user_input != "e":
+        print("\n#---------------AFD4fun---------------#")
+        if afd != None:
+            print(f'# using AFD: {afd.name} from: {AFD_file_path}')
+        print("# 1 - Read AFD from file              #")
+        print("# 2 - Compute word                    #")
+        print("# 3 - Remove Unreachable States       #")
+        print("# 4 - Make program function total     #")
+        print("# 5 - Minimize                        #")
+        print("# 6 - Filter word pairs from file     #")
+        print("# p - print AFD                       #")
+        print("# e - Exit application                #")
+        user_input = input("# Option: ")
+        if user_input == "1":
+            AFD_file_path = input("# Enter the AFD file path: ")
+            afd = AFD(AFD_file_path)
+            continue
+        elif user_input == "2":
+            if afd != None:
+                user_input = input("# Enter the word: ")
+                afd.processWord(user_input,verbose=True)
+        elif user_input == "3":
+            if afd != None:
+                afd.removeUnreachableStates()
+        elif user_input == "4":
+            if afd != None:
+                afd.makeTotal()
+        elif user_input == "5":
+            if afd != None:
+                afd.minimize()
+        elif user_input == "p":
+            if afd != None:
+                print(afd)
+        elif user_input == "6":
+            if afd != None:
+                user_input = input("# Enter the word pairs file path: ")
+                print("# Accepted pairs:")
+                afd.filter_pairs(user_input)
+        elif user_input == "e":
+                print("-Work done by: Garrenlus de Souza, Lucas Rozado & Rodolfo Barbosa | 2021")
+        if afd == None and user_input != "e":
+            print("# No AFD found! Use option 1 to read from a file")
+        input("\nPress Enter to continue...")
+menu()

@@ -1,3 +1,6 @@
+#Autores: Garrenlus de Souza, Lucas Rozado & Rodolfo Barbosa | 2021
+#Representacao interna de um nodo do AFD
+
 class AFDNode:
     def __init__(self, name, transitions=None, isFinal=False):
         self.name = name                #string
@@ -6,21 +9,7 @@ class AFDNode:
 
     def addTransition(self, input, nextState):
         self.transitions[input] = nextState
-    
-    
-    def __str__(self):
-        info = f'<(label:{self.name}, '
-        if(len(self.transitions.values()) > 0):
-            for transition in self.transitions.items()[:-1]:
-                info += "[" + transition.key() + " -> " + transition.value().getName() + "], "
-            info += "[" + transition.key() + " -> " + self.transitions.items()[-1].getName() + "]"
-        info += ")>"
-        return info
-
-    def __repr__(self):
-        return self.__str__()
-    
-
+     
     def remove_transition(self, sym):
         self.transitions.pop(sym)
 
